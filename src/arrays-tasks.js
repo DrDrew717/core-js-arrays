@@ -411,8 +411,13 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const result = new Array(n).fill().map(() => new Array(n).fill(0));
+  result.map((_, index) => {
+    result[index][index] = 1;
+    return index;
+  });
+  return result;
 }
 
 /**
@@ -586,8 +591,15 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length <= 1) return arr;
+  const head = arr.slice(0, Math.floor(arr.length / 2));
+  const tail = arr.slice(Math.ceil(arr.length / 2), arr.length);
+  const middle = arr[Math.floor(arr.length / 2)];
+  if (arr.length % 2 === 0) {
+    return [].concat(tail, head);
+  }
+  return [].concat(tail, middle, head);
 }
 
 module.exports = {
