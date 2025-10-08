@@ -337,16 +337,12 @@ function calculateBalance(arr) {
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
 function createChunks(arr, chunkSize) {
-  const result = [];
-  const arr2 = arr.slice(0, arr.length);
-  arr.map((item, index) => {
-    if ((index + 1) % chunkSize === 0) {
-      result.push(arr2.splice(0, chunkSize));
+  return arr.reduce((sum, _, index) => {
+    if (index === 0 || index % chunkSize === 0) {
+      sum.push(arr.slice(index, index + chunkSize));
     }
-    return item;
-  });
-  if (arr2.length < chunkSize && arr2.length > 0) result.push(arr2);
-  return result;
+    return sum;
+  }, []);
 }
 
 /**
@@ -519,8 +515,20 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => longest is [3, 10] and [1, 20] => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  const arrOfArrs = [];
+  const arr = [];
+  nums.map((item) => {
+    if (arr.length === 0 || arr.at(-1) < item) {
+      arr.push(item);
+    } else {
+      arrOfArrs.push([...arr]);
+      arr.splice(0, arr.length, item);
+    }
+    return item;
+  });
+  arrOfArrs.push(arr);
+  return arrOfArrs.sort((a, b) => b.length - a.length)[0].length;
 }
 
 /**
